@@ -1,0 +1,81 @@
+//Sample using LiquidCrystal library
+#include <LiquidCrystal.h>
+
+// select the pins used on the LCD panel
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+
+// define some values used by the panel and buttons
+int lcd_key = 0;
+int adc_key_in = 0;
+int btnRIGHT = 0;
+int btnUP = 1;
+int btnDOWN = 2;
+int btnLEFT = 3;
+int btnSELECT = 4;
+int btnNONE = 5;
+
+int V1 = 0;
+int V2 = 99; 
+int V3 = 255;
+int V4 = 409;
+int V5 = 639;
+int VNONE = 1023;
+
+// read the buttons
+int read_LCD_buttons()
+{
+  adc_key_in = analogRead(0);    // read the value from the sensor
+  if (adc_key_in > VNONE) return btnNONE;
+  if (adc_key_in < V1) return btnRIGHT;
+  if (adc_key_in < V2) return btnUP;
+  if (adc_key_in < V3) return btnDOWN;
+  if (adc_key_in < V4) return btnLEFT;
+  if (adc_key_in < V5) return btnSELECT;
+  return btnNONE;        // when all others fail, return this...
+}
+
+void setup()
+{
+  lcd.begin(16, 2);      // start the library
+  
+}
+
+void loop()
+{
+  lcd_key = read_LCD_buttons();    // read the buttons
+
+switch (lcd_key)                   // depending on which button was pushed, we perform an act:
+  case btnRIGHT:
+    {
+    // Instructions for what to do on RIGHT button press
+    break;
+    }
+  case btnLEFT:
+    {
+    // Instructions for what to do on LEFT button press
+    break;
+    }
+  case btnUP:
+    {
+    // Instructions for what to do on UP button press
+    break:
+    }
+  case btnDOWN:
+    {
+    // Instructions for what to do on DOWN button press
+    break;
+    }
+  case btnSELECT:
+    {
+    // Instructions for what to do on SELECT button press
+    break;
+    }
+  case btnNONE:
+    {
+    // Instructions for what to do if no button is pressed.
+    break;
+    }
+}
+
+}
+
