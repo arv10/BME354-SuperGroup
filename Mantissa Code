@@ -1,4 +1,4 @@
-\\ Mantissa Code
+// Mantissa Code
 
 #include <LiquidCrystal.h>
 
