@@ -1,6 +1,6 @@
 //Sample using LiquidCrystal library
 #include <LiquidCrystal.h>
-
+//amit is great, all hail amit
 // select the pins used on the LCD panel
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
