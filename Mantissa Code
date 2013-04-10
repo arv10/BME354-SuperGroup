@@ -16,17 +16,6 @@ byte smiley[8] = {
   0b00000
 };
 
-byte frownie[8] = {
-  0b00000,
-  0b00000,
-  0b01010,
-  0b00000,
-  0b00000,
-  0b00000,
-  0b01110,
-  0b10001
-};
-
 byte heart[8] = {
   0b00000,
   0b01010,
@@ -40,15 +29,12 @@ byte heart[8] = {
 
 void setup() {
   lcd.createChar(0,smiley);
-  lcd.createChar(1,frownie);
   lcd.createChar(2,heart);
   lcd.begin(16,2);
   lcd.setCursor(0,0);
   lcd.write(byte(0));
   lcd.setCursor(0,1);
   lcd.write(2);
-  
-
 }
 
 void loop() {
@@ -64,10 +50,9 @@ void loop() {
   lcd.print("VA");
   lcd.write(2);
   lcd.print("Big Mantissa");
-    lcd.setCursor(3,0);
+  lcd.setCursor(3,0);
   lcd.write(2);
- 
-  
+
     for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
     // scroll one position left:
     lcd.scrollDisplayLeft(); 
