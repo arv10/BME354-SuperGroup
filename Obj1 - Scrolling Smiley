@@ -44,9 +44,6 @@ void setup() {
   lcd.createChar(2,heart);
   lcd.begin(16,2);
   lcd.write(byte(0));
-
-  
-
 }
 
 void loop() {
@@ -55,15 +52,15 @@ void loop() {
   for (int positionCounter = 0; positionCounter < 15; positionCounter++) {
     // scroll one position right:
     lcd.scrollDisplayRight(); 
-    // wait a bit:
-    delay(150);
+    // wait a bit, the waiting is dependent upon the position of the text:
+    delay(150*15/positionCounter); 
   }
   
     for (int positionCounter = 0; positionCounter < 15; positionCounter++) {
     // scroll one position left:
     lcd.scrollDisplayLeft(); 
-    // wait a bit:
-    delay(150);
+    // wait a bit, the waiting is dependent upon the position of the text:
+    delay(150*positionCounter/15);
   }
 
   
