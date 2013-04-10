@@ -1,4 +1,4 @@
-\\ Smiley Scrolling Code
+// Smiley Scrolling Code
 
 #include <LiquidCrystal.h>
 
@@ -52,15 +52,15 @@ void loop() {
   for (int positionCounter = 0; positionCounter < 15; positionCounter++) {
     // scroll one position right:
     lcd.scrollDisplayRight(); 
-    // wait a bit, the waiting is dependent upon the position of the text:
-    delay(150*15/positionCounter); 
+    // wait a bit, the waiting is a constant so that velocity is constant:
+    delay(150); 
   }
   
     for (int positionCounter = 0; positionCounter < 15; positionCounter++) {
     // scroll one position left:
     lcd.scrollDisplayLeft(); 
-    // wait a bit, the waiting is dependent upon the position of the text:
-    delay(150*positionCounter/15);
+    // wait a bit, the waiting is dependent upon the position of the text (decelerate):
+    delay(300*positionCounter/15);
   }
 
   
@@ -68,4 +68,3 @@ void loop() {
   delay(0);
 
 }
-
