@@ -1,4 +1,4 @@
-\\ Llama Code
+// Llama Code
 
 #include <LiquidCrystal.h>
 
@@ -172,4 +172,3 @@ for (int positionCounter = 0; positionCounter < 7; positionCounter++) {
 
 
 }
-
