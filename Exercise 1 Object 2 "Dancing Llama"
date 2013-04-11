@@ -1,5 +1,5 @@
 // Llama Code
-// Arduino code
+
 #include <LiquidCrystal.h>
 
 #include <EEPROM.h>
