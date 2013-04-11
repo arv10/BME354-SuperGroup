@@ -49,9 +49,9 @@ void loop() {
   lcd.setCursor(0,1);
   lcd.print("VA");
   lcd.write(2);
-  lcd.print("Big Mantissa");
-  lcd.setCursor(3,0);
-  lcd.write(2);
+  lcd.print("Big Mantissa!");
+  lcd.setCursor(15,0);
+  lcd.write(byte(0));
 
     for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
     // scroll one position left:
@@ -65,4 +65,3 @@ void loop() {
   delay(5000);
 
 }
-
