@@ -185,6 +185,23 @@ switch (lcd_key)
       }
       
     }
+    case btnNONE:
+    {
+    // Instructions for what to do if no button is pressed.
+     lcd.setCursor(cursorPos,1);
+     lcd.print(" ");
+     delay(100);
+    
+    lcd.setCursor(cursorPos,1);
+    if (cursorPos > 1)
+    {
+      lcd.print(digit[cursorPos-1]);
+    }
+    else
+    {
+      lcd.print(digit[cursorPos]);
+    }  
+    }
 }
 delay(200);
 }
