@@ -183,9 +183,17 @@ switch (lcd_key)
         lcd.setCursor(0,1);
         lcd.print(settemperature);
       }
-      while (true)
+      int pause = 1;
+      while (pause == 1) 
       {
-      }
+                      delay(100);
+                      check_key = 0;
+                      check_key = read_LCD_buttons();
+                      
+                      if (check_key == 4) 
+                        {
+                        pause = pause + 1;
+                         }
       
     }
     case btnNONE:
