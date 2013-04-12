@@ -40,17 +40,19 @@ int read_LCD_buttons()
 void setup()
 {
   lcd.begin(16, 2);      // start the library
-  lcd.print("Set Temperature");
+  
+}
+
+void loop()
+{
+
+lcd.print("Set Temperature");
   lcd.setCursor(0,1); 
   lcd.print(digit[0]);
   lcd.print(digit[1]);
   lcd.print(digit[2]);
   lcd.print('.'); 
   lcd.print(digit[3]);
-}
-
-void loop()
-{
   lcd_key = read_LCD_buttons();    // read the buttons
 switch (lcd_key)   
 {
