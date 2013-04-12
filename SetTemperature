@@ -100,7 +100,7 @@ switch (lcd_key)
     {
       lcd.setCursor(cursorPos,1);
       int max = 9;
-      if (cursorPos == 3)
+      if (cursorPos == 4)
       {
         if (digit[cursorPos-1] < max)
         {
@@ -133,7 +133,7 @@ switch (lcd_key)
       lcd.setCursor(cursorPos,1);
       int max = 9;
       
-      if (cursorPos == 3)
+      if (cursorPos == 4)
       { 
         if (digit[cursorPos-1] == 0)
         {
@@ -194,7 +194,7 @@ switch (lcd_key)
                         {
                         pause = pause + 1;
                          }
-}
+    }
       
     }
     case btnNONE:
