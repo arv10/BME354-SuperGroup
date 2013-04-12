@@ -1,0 +1,40 @@
+// Heat control function with Threshold Display
+
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+
+int heaterPin = 13;
+int tempPin = 1;
+float setTemp = 23; // temp threshold in Celsius
+
+void setup()
+{
+  lcd.begin(16,2);
+  pinMode(heaterPin,OUTPUT); // heaterPin is set as an output
+  
+}
+
+void loop()
+{
+  int currentTemp = analogRead(tempPin);
+  float TempVolt = currentTemp*(5/1023);
+  float TempCelsius = TempVolt/(0.005); // test linear relationship
+  
+  if (TempCelsius < setTemp) {
+     digitalWrite(heaterPin,HIGH); }
+  else {
+     digitalWrite(heaterPin,LOW); }
+     
+     lcd.setCursor(0,0);
+     lcd.print("Current T:");
+     lcd.print(TempCelsius);
+     lcd.print("C");
+     lcd.setCursor(0,1);
+     lcd.print("Set T:");
+     lcd.print(setTemp);
+     lcd.print("C");
+       
+  delay(1000);
+  
+  
+}
