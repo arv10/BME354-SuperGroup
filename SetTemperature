@@ -169,20 +169,21 @@ switch (lcd_key)
       int low = 20;
       double settemperature = 100*digit[0]+10*digit[1]+digit[2]+.1*digit[3];
       lcd.setCursor(0,0);
-      lcd.println("Set Temperature is");
+      lcd.println("The Temperature");
       if (settemperature > high)
       {
         lcd.setCursor(0,1);
-        lcd.println("Too HIGH");
+        lcd.println("is Too HIGH");
       }
       else if (settemperature < low)
       {
         lcd.setCursor(0,1);
-        lcd.println("Too LOW");
+        lcd.println("is Too LOW");
       }
       else
       {
         lcd.setCursor(0,1);
+        lcd.print("is ");
         lcd.print(digit[0]);
 lcd.print(digit[1]);
 lcd.print(digit[2]);
@@ -207,7 +208,7 @@ lcd.print(digit[3]);
   lcd.print(digit[2]);
   lcd.print('.'); 
   lcd.print(digit[3]);
-  lcd.print("           ")
+  lcd.print("                      ");
                          }
     }
       
