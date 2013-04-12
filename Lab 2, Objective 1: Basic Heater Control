@@ -1,0 +1,37 @@
+// Objective 1
+
+// Heat control function
+
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+
+int heaterPin = 13;
+int tempPin = 1;
+int setTemp = 23; // temp threshold in Celsius
+
+void setup()
+{
+  lcd.begin(16,2);
+  pinMode(heaterPin,OUTPUT); // heaterPin is set as an output
+  
+}
+
+void loop()
+{
+  int currentTemp = analogRead(tempPin);
+  float TempVolt = currentTemp*(5/1023);
+  float TempCelsius = TempVolt/(0.005); // test linear relationship
+  
+  if (TempCelsius < setTemp) {
+     digitalWrite(heaterPin,HIGH);
+     lcd.setCursor(0,0);
+     lcd.print("Heater ON!"); }
+  else {
+     digitalWrite(heaterPin,LOW);
+     lcd.setCursor(0,0);
+     lcd.print("Heater OFF"); }
+       
+  delay(1000);
+  
+  
+}
