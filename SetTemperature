@@ -183,6 +183,9 @@ switch (lcd_key)
         lcd.setCursor(0,1);
         lcd.print(settemperature);
       }
+      while (true)
+      {
+      }
       
     }
     case btnNONE:
