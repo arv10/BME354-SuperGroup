@@ -194,6 +194,7 @@ switch (lcd_key)
                         {
                         pause = pause + 1;
                          }
+}
       
     }
     case btnNONE:
