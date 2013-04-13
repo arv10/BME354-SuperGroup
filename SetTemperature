@@ -46,7 +46,7 @@ void setup()
   lcd.print(digit[0]);
   lcd.print(digit[1]);
   lcd.print(digit[2]);
-  lcd.print('.'); 
+  lcd.print("."); 
   lcd.print(digit[3]);
 }
 
