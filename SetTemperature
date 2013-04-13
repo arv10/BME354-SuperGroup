@@ -221,7 +221,7 @@ lcd.print(digit[3]);
      delay(100);
     
     lcd.setCursor(cursorPos,1);
-    if (cursorPos > 1)
+    if (cursorPos > 2)
     {
       lcd.print(digit[cursorPos-1]);
     }
