@@ -185,10 +185,10 @@ switch (lcd_key)
         lcd.setCursor(0,1);
         lcd.print("is ");
         lcd.print(digit[0]);
-lcd.print(digit[1]);
-lcd.print(digit[2]);
-lcd.print('.');
-lcd.print(digit[3]);
+        lcd.print(digit[1]);
+        lcd.print(digit[2]);
+        lcd.print('.');
+        lcd.print(digit[3]);
       }
       int pause = 1;
       while (pause == 1) 
