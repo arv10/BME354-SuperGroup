@@ -51,10 +51,13 @@ void setup()
   lcd.print(digit[2]);
   lcd.print("."); 
   lcd.print(digit[3]);
-  
+  setTemp = blahblahblah;
 }
 
-void loop()
+int blahblahblah()
+{
+int checkck = 0;
+while (checkck == 0)
 {
   lcd_key = read_LCD_buttons();    // read the buttons
 switch (lcd_key)   
@@ -186,8 +189,8 @@ switch (lcd_key)
       }
       else
       {
-  checker = 1;
-	setTemp = settemperature;
+	checker = 1;
+	checkck = 1;
         lcd.setCursor(0,1);
         lcd.print("is ");
         lcd.print(digit[0]);
@@ -245,6 +248,8 @@ switch (lcd_key)
     }
 }
 delay(200);
+}
+return settemperature;
 }
 
 void loop()
