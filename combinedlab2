@@ -12,6 +12,7 @@ int adc_key_in = 0;
 int digit[] = {0, 0, 0, 0}; 
 int cursorPos = 1;
 int check_key = 0;
+int dachecks=0;
 
 #define btnRIGHT 0
 #define btnUP 1
@@ -51,7 +52,10 @@ void setup()
   lcd.print(digit[2]);
   lcd.print("."); 
   lcd.print(digit[3]);
+}
 
+int blahblahblah()
+{
 int checkck = 0;
 while (checkck == 0)
 {
@@ -245,14 +249,19 @@ switch (lcd_key)
 }
 delay(200);
 }
-
+return settemperature;
 }
-setTemp = settemperature;
-
-
 
 void loop()
 {
+  if (dachecks == 0)
+  {
+	setTemp=blahblahblah;
+  }
+  else 
+  {
+	setTemp=setTemp;
+  }
   int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
   float TempCelsius = TempVolt/(0.005); // test linear relationship
