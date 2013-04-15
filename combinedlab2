@@ -51,11 +51,7 @@ void setup()
   lcd.print(digit[2]);
   lcd.print("."); 
   lcd.print(digit[3]);
-  setTemp = blahblahblah;
-}
 
-int blahblahblah()
-{
 int checkck = 0;
 while (checkck == 0)
 {
@@ -249,8 +245,11 @@ switch (lcd_key)
 }
 delay(200);
 }
-return settemperature;
+
 }
+setTemp = settemperature;
+
+
 
 void loop()
 {
