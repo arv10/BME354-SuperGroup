@@ -198,7 +198,7 @@ switch (lcd_key)
         lcd.print(digit[2]);
         lcd.print('.');
         lcd.print(digit[3]);
-	lcd.print("      ")
+	lcd.print("      ");
       }
       int pause = 1;
       while (pause == 1) 
@@ -266,10 +266,10 @@ void loop()
   int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
   float TempCelsius = TempVolt/(0.005); // test linear relationship
-  lcd.setCursor(0,0)
-  lcd.print("               ")
-  lcd.setCursor(0,1)
-  lcd.print("               ")
+  lcd.setCursor(0,0);
+  lcd.print("               ");
+  lcd.setCursor(0,1);
+  lcd.print("               ");
   if (TempCelsius < setTemp) {
      digitalWrite(heaterPin,HIGH);
      lcd.setCursor(0,0);
