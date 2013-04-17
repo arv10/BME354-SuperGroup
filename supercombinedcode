@@ -6,7 +6,6 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 int heaterPin = 13;
 int tempPin = 1;
 double setTemp = 23; // temp threshold in Celsius
-double settemperature=0;
 int lcd_key = 0;
 int adc_key_in = 0;
 int digit[] = {0, 0, 0, 0}; 
@@ -299,10 +298,6 @@ void loop()
   {
 	setTemp=setthetemperature();
         dachecks=1;
-  }
-  else 
-  {
-	setTemp=setTemp;
   }
   
   lcd.setCursor(0,0);
