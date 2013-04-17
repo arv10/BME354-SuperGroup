@@ -253,7 +253,7 @@ delay(200);
 return settemperature;
 }
 
-void heaterdisplay(setTemps)
+void heaterdisplay(double setTemps)
 {
   int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
@@ -274,7 +274,7 @@ void heaterdisplay(setTemps)
      lcd.print("C");
 }
 
-void heatersaftey(setTemps)
+void heatersaftey(double setTemps)
 {
  int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
@@ -317,8 +317,9 @@ void loop()
   lcd.print("               ");
   lcd.setCursor(0,1);
   lcd.print("               ");
-  lcd.print(setTemp)
-  delay(500)
+  lcd.setCursor(0,0);
+  lcd.print(setTemp);
+  delay(500);
   lcd.setCursor(0,0);
   lcd.print("               ");
   lcd.setCursor(0,1);
