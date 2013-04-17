@@ -6,7 +6,7 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 int heaterPin = 13;
 int tempPin = 1;
 double setTemp = 23; // temp threshold in Celsius
-
+double settemperature=0;
 int lcd_key = 0;
 int adc_key_in = 0;
 int digit[] = {0, 0, 0, 0}; 
@@ -54,7 +54,7 @@ void setup()
   lcd.print(digit[3]);
 }
 
-int setthetemperature()
+double setthetemperature()
 {
 int checkck = 0;
 while (checkck == 0)
@@ -176,16 +176,16 @@ switch (lcd_key)
       int low = 20;
       double settemperature = 100*digit[0]+10*digit[1]+digit[2]+.1*digit[3];
       lcd.setCursor(0,0);
-      lcd.println("The Temperature");
+      lcd.println("The Temperature ");
       if (settemperature > high)
       {
         lcd.setCursor(0,1);
-        lcd.println("is Too HIGH");
+        lcd.println("is Too HIGH    ");
       }
       else if (settemperature < low)
       {
         lcd.setCursor(0,1);
-        lcd.println("is Too LOW");
+        lcd.println("is Too LOW     ");
       }
       else
       {
@@ -198,6 +198,7 @@ switch (lcd_key)
         lcd.print(digit[2]);
         lcd.print('.');
         lcd.print(digit[3]);
+	lcd.print("      ")
       }
       int pause = 1;
       while (pause == 1) 
@@ -208,7 +209,7 @@ switch (lcd_key)
                       
                       if (check_key == 4) 
                         {
-			if (checker == 1)
+			if (checker == 0)
 			{
                         pause = pause + 1;
                         lcd.setCursor(0,0);
@@ -256,7 +257,7 @@ void loop()
 {
   if (dachecks == 0)
   {
-	setTemp=setthetemperature;
+	setTemp=setthetemperature();
   }
   else 
   {
@@ -265,7 +266,10 @@ void loop()
   int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
   float TempCelsius = TempVolt/(0.005); // test linear relationship
-  
+  lcd.setCursor(0,0)
+  lcd.print("               ")
+  lcd.setCursor(0,1)
+  lcd.print("               ")
   if (TempCelsius < setTemp) {
      digitalWrite(heaterPin,HIGH);
      lcd.setCursor(0,0);
