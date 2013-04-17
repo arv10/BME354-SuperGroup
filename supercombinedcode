@@ -55,6 +55,7 @@ void setup()
 
 double setthetemperature()
 {
+double settemperature;
 int checkck = 0;
 while (checkck == 0)
 {
@@ -173,7 +174,7 @@ switch (lcd_key)
       int checker=0;
       int high = 300;
       int low = 20;
-      double settemperature = 100*digit[0]+10*digit[1]+digit[2]+.1*digit[3];
+      settemperature = 100*digit[0]+10*digit[1]+digit[2]+.1*digit[3];
       lcd.setCursor(0,0);
       lcd.println("The Temperature ");
       if (settemperature > high)
