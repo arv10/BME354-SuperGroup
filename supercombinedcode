@@ -253,7 +253,7 @@ delay(200);
 return settemperature;
 }
 
-void heaterdisplay(setTemp)
+void heaterdisplay(setTemps)
 {
   int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
@@ -270,18 +270,17 @@ void heaterdisplay(setTemp)
      lcd.print("C");
      lcd.setCursor(0,1);
      lcd.print("Set T:");
-     lcd.print(setTemp);
+     lcd.print(setTemps);
      lcd.print("C");
-     return void
 }
 
-void heatersaftey(setTemp)
+void heatersaftey(setTemps)
 {
  int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
   float TempCelsius = TempVolt/(0.005); // test linear relationship
   
-  if (TempCelsius < setTemp) {
+  if (TempCelsius < setTemps) {
      digitalWrite(heaterPin,HIGH);
      lcd.setCursor(0,0);
      lcd.print("Heater ON!"); }
@@ -307,19 +306,29 @@ void loop()
   if (dachecks == 0)
   {
 	setTemp=setthetemperature();
-  dachecks=1;
+        dachecks=1;
   }
   else 
   {
 	setTemp=setTemp;
   }
-
+  
+  lcd.setCursor(0,0);
+  lcd.print("               ");
+  lcd.setCursor(0,1);
+  lcd.print("               ");
+  lcd.print(setTemp)
+  delay(500)
   lcd.setCursor(0,0);
   lcd.print("               ");
   lcd.setCursor(0,1);
   lcd.print("               ");
   heaterdisplay(setTemp);
   delay(500);
+  lcd.setCursor(0,0);
+  lcd.print("               ");
+  lcd.setCursor(0,1);
+  lcd.print("               ");
   heatersaftey(setTemp);
   delay(500);
   
