@@ -54,7 +54,7 @@ void setup()
   lcd.print(digit[3]);
 }
 
-int blahblahblah()
+int setthetemperature()
 {
 int checkck = 0;
 while (checkck == 0)
@@ -256,7 +256,7 @@ void loop()
 {
   if (dachecks == 0)
   {
-	setTemp=blahblahblah;
+	setTemp=setthetemperature;
   }
   else 
   {
