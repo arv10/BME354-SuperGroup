@@ -1,17 +1,17 @@
-// Amended Heat control function (Safety)
+// master code with temperature setting, heater control, and safety
 
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
-int heaterPin = 13;
-int tempPin = 1;
+int heaterPin = 13; // set heater pin to 13
+int tempPin = 1; // set temperature sensing pin to 1
 double setTemp = 23; // temp threshold in Celsius
-int lcd_key = 0;
+int lcd_key = 0; // 
 int adc_key_in = 0;
-int digit[] = {0, 0, 0, 0}; 
+int digit[] = {0, 0, 0, 0}; // the temperature to be set
 int cursorPos = 1;
 int check_key = 0;
-int dachecks=0;
+int shouldwesetthetemperature=0;
 
 #define btnRIGHT 0
 #define btnUP 1
@@ -245,7 +245,7 @@ delay(200);
 return settemperature;
 }
 
-void heaterdisplay(double setTemps)
+void heaterdisplay(double setTemps) // display function
 {
   int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
@@ -255,7 +255,7 @@ void heaterdisplay(double setTemps)
      digitalWrite(heaterPin,HIGH); }
   else {
      digitalWrite(heaterPin,LOW); }
-     
+    
      lcd.setCursor(0,0);
      lcd.print("Current T:");
      lcd.print(TempCelsius);
@@ -266,13 +266,13 @@ void heaterdisplay(double setTemps)
      lcd.print("C");
 }
 
-void heatersaftey(double setTemps)
+void heatersaftey(double thesettemperature) // saftey function
 {
  int currentTemp = analogRead(tempPin);
   float TempVolt = currentTemp*(5/1023);
   float TempCelsius = TempVolt/(0.005); // test linear relationship
   
-  if (TempCelsius < setTemps) {
+  if (TempCelsius < thesettemperature) {
      digitalWrite(heaterPin,HIGH);
      lcd.setCursor(0,0);
      lcd.print("Heater ON!"); }
@@ -295,31 +295,21 @@ void heatersaftey(double setTemps)
 
 void loop()
 {
-  if (dachecks == 0)
+  if (shouldwesetthetemperature == 0)
   {
 	setTemp=setthetemperature();
-        dachecks=1;
+        shouldwesetthetemperature=1;
   }
-  
-  lcd.setCursor(0,0);
-  lcd.print("               ");
-  lcd.setCursor(0,1);
-  lcd.print("               ");
-  lcd.setCursor(0,0);
-  lcd.print(setTemp);
-  delay(500);
   lcd.setCursor(0,0);
   lcd.print("               ");
   lcd.setCursor(0,1);
   lcd.print("               ");
   heaterdisplay(setTemp);
-  delay(500);
+  delay(750);
   lcd.setCursor(0,0);
   lcd.print("               ");
   lcd.setCursor(0,1);
   lcd.print("               ");
   heatersaftey(setTemp);
-  delay(500);
-  
-  
+  delay(750);
 }
