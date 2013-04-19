@@ -1,5 +1,7 @@
 // master code with temperature setting, heater control, and safety
 
+// Daria is amazing; remember that (Jessica)
+
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
