@@ -248,8 +248,9 @@ return settemperature;
 void heaterdisplay(double setTemps) // display function
 {
   int currentTemp = analogRead(tempPin);
-  float TempVolt = currentTemp*(5/1023);
-  float TempCelsius = TempVolt/(0.005); // test linear relationship
+  float TempVolt = currentTemp*5; 
+  TempVolt = TempVolt/1023;
+  float TempCelsius = TempVolt/0.005; // test linear relationship
   
   if (TempCelsius < setTemp) {
      digitalWrite(heaterPin,HIGH); }
@@ -269,8 +270,9 @@ void heaterdisplay(double setTemps) // display function
 void heatersaftey(double thesettemperature) // saftey function
 {
  int currentTemp = analogRead(tempPin);
-  float TempVolt = currentTemp*(5/1023);
-  float TempCelsius = TempVolt/(0.005); // test linear relationship
+  float TempVolt = currentTemp*5;
+  TempVolt = TempVolt/1023;  
+  float TempCelsius = TempVolt/0.005; // test linear relationship
   
   if (TempCelsius < thesettemperature) {
      digitalWrite(heaterPin,HIGH);
@@ -287,8 +289,9 @@ void heatersaftey(double thesettemperature) // saftey function
      lcd.setCursor(0,1);
      lcd.print("Critical Temp!"); 
      currentTemp = analogRead(tempPin);
-     TempVolt = currentTemp*(5/1023);
-     TempCelsius = TempVolt/(0.005);
+     TempVolt = currentTemp*5;
+     TempVolt = TempVolt/1023;
+     TempCelsius = TempVolt/0.005;
      delay(1000);}
 }
 
