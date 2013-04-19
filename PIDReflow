@@ -1,0 +1,47 @@
+/********************************************************
+ * PID Basic Example
+ * Reading analog input 0 to control analog PWM output 3
+ ********************************************************/
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+
+#include <PID_v1.h>
+
+int heaterPin = 13;
+int tempPin = 1;
+float setTemp = 150;
+
+//Define Variables we'll be connecting to
+double Setpoint, Input, Output;
+
+//Specify the links and initial tuning parameters
+PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);
+
+void setup()
+{
+  //initialize the variables we're linked to
+  Input = analogRead(tempPin);
+  Setpoint = setTemp;
+
+  //turn the PID on
+  myPID.SetMode(AUTOMATIC);
+}
+
+void loop()
+{
+  int currentTemp = analogRead(tempPin);
+  float TempVolt = currentTemp*5;
+  TempVolt = TempVolt/1023;
+  float TempCelsius = TempVolt/0.005;
+  lcd.setCursor(0, 0);
+  lcd.print(TempCelsius);
+  delay(1000);
+  
+  Input = analogRead(tempPin);
+  myPID.Compute();
+  analogWrite(heaterPin,Output);
+  lcd.setCursor(0, 1);
+  lcd.print("PID");
+  lcd.print(Output);
+  delay(1000);
+}
