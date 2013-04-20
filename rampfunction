@@ -1,0 +1,26 @@
+void ramp(int slope, int target)
+{
+  int currentTemp = analogRead(tempPin);
+  float TempVolt = currentTemp*5;
+  TempVolt = TempVolt/1023;
+  float TempCelsius = TempVolt/0.005;
+  digitalWrite(heaterPin, HIGH);
+  while(TempCelsius<target)
+  {
+    delay(100); // checks the slope every .1 second
+    float newcurrenttemp=analogRead(tempPin);
+    newcurrenttemp=newcurrenttemp*5;
+    newcurrenttemp=newcurrenttemp/1023;
+    newcurrenttemp=newcurrenttemp/.005;
+    float calcslope = (newcurrenttemp-TempCelsius)/.1;
+    if (calcslope>slope)
+    {
+      digitalWrite(heaterPin, LOW);
+    }
+    else
+    {
+      digitalWrite(heaterPin, HIGH);
+    }
+    TempCelsius = newcurrenttemp;
+  }
+}

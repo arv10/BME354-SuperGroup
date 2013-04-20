@@ -134,7 +134,7 @@ switch (lcd_key)
       }
       else
       {
-  	checker = 1;
+    checker = 1;
 	checkck = 1;
         lcd.setCursor(0,1);
         lcd.print("is ");

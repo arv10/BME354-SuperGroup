@@ -1,7 +1,7 @@
 // master code with temperature setting, heater control, and safety
 
 // Daria is amazing; remember that (Jessica)
-// Chocholate Diablo is  but hot
+// Chocholate Diablo is hot
 
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);

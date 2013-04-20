@@ -71,4 +71,3 @@ void heaterdisplay(double setTemps) // display function
      lcd.print(setTemps);
      lcd.print("C");
 }
-
