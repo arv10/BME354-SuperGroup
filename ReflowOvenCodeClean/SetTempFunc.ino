@@ -2,8 +2,7 @@ double setthetemperature()
 {
   int settemperature = low; // the threshold value
   int checkck = 0; 
-  
-  lcd_key = read_LCD_buttons();
+
   while (checkck == 0) {
       lcd_key = read_LCD_buttons();
 
@@ -33,12 +32,14 @@ double setthetemperature()
       }
     case btnUP:
       {
+        lcd.setCursor(5,1);
+        lcd.print(cursorPos);
         lcd.setCursor(cursorPos,1);
-        if (cursorPos = 0 && settemperature < 201) {
+        if (cursorPos == 0 && settemperature < 201) {
           settemperature = settemperature + 100; }
-        else if (cursorPos = 1 && settemperature < 291) {
+        else if (cursorPos == 1 && settemperature < 291) {
           settemperature = settemperature + 10; }
-        else if (cursorPos = 2 && settemperature < 300) {
+        else if (cursorPos == 2 && settemperature < 300) {
           settemperature = settemperature + 1; }
         
         break;
@@ -46,11 +47,11 @@ double setthetemperature()
     case btnDOWN:
       {
         lcd.setCursor(cursorPos,1);
-        if (cursorPos = 0 && settemperature > 119) {
+        if (cursorPos == 0 && settemperature > 119) {
           settemperature = settemperature - 100; }
-        else if (cursorPos = 1 && settemperature > 29) {
+        else if (cursorPos == 1 && settemperature > 29) {
           settemperature = settemperature - 10; }
-        else if (cursorPos = 2 && settemperature > 20) {
+        else if (cursorPos == 2 && settemperature > 20) {
           settemperature = settemperature - 1; }
         break;
       }
@@ -79,7 +80,6 @@ double setthetemperature()
        lcd.print("                     ");
        lcd.setCursor(0,1);
        lcd.print(settemperature);
-       delay(100);
 
        break;
       }

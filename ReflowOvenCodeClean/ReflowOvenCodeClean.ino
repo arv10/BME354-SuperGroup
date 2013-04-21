@@ -11,17 +11,16 @@ int tempPin = 1; // set temperature sensing pin to 1
 int setTemp = 23; // temp threshold in Celsius
 int lcd_key = 0; // 
 int adc_key_in = 0;
-int cursorPos = 1;
 int check_key = 0;
 int shouldwesetthetemperature=0;
 int high = 300;
 int low = 20;
-
+int cursorPos = 2;
 
 
 void setup()
 {
-  
+
   int startTemp = low; // start setting the Temp at 0.00
   lcd.begin(16,2);
   pinMode(heaterPin,OUTPUT); // heaterPin is set as an output
