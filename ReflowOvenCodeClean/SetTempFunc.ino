@@ -32,8 +32,6 @@ double setthetemperature()
       }
     case btnUP:
       {
-        lcd.setCursor(5,1);
-        lcd.print(cursorPos);
         lcd.setCursor(cursorPos,1);
         if (cursorPos == 0 && settemperature < 201) {
           settemperature = settemperature + 100; }
@@ -78,9 +76,14 @@ double setthetemperature()
       
        lcd.setCursor(0,1);
        lcd.print("                     ");
+       if (settemperature < 100) {
+       lcd.setCursor(1,1);
+       lcd.print(settemperature); }
+       else {
        lcd.setCursor(0,1);
        lcd.print(settemperature);
-
+       }
+       delay(50);
        break;
       }
   }
