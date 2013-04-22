@@ -16,14 +16,15 @@ void ramp(int slope, int target)
     float calcslope = (newcurrenttemp-TempCelsius);
     calcslope=calcsclope/.01;
     myPid.Compute();
-    if (calcslope>slope)
-    {
-      analogWrite(heaterPin, LOW);
-    }
-    else
-    {
-      analogWrite(heaterPin, Output);
-    }
+    // if (calcslope>slope)
+    // {
+    //  analogWrite(heaterPin, LOW);
+    // }
+    // else
+    // {
+    //  analogWrite(heaterPin, Output);
+    // }
+    analogWrite(heaterPin,Output);
     TempCelsius = newcurrenttemp;
   }
 }
