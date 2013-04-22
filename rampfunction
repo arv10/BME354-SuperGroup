@@ -4,22 +4,25 @@ void ramp(int slope, int target)
   float TempVolt = currentTemp*5;
   TempVolt = TempVolt/1023;
   float TempCelsius = TempVolt/0.005;
-  digitalWrite(heaterPin, HIGH);
+  myPid.Compute();
+  analogWrite(heaterPin, Output);
   while(TempCelsius<target)
   {
-    delay(100); // checks the slope every .1 second
+    delay(10); // checks the slope every .01 second
     float newcurrenttemp=analogRead(tempPin);
     newcurrenttemp=newcurrenttemp*5;
     newcurrenttemp=newcurrenttemp/1023;
     newcurrenttemp=newcurrenttemp/.005;
-    float calcslope = (newcurrenttemp-TempCelsius)/.1;
+    float calcslope = (newcurrenttemp-TempCelsius);
+    calcslope=calcsclope/.01;
+    myPid.Compute();
     if (calcslope>slope)
     {
-      digitalWrite(heaterPin, LOW);
+      analogWrite(heaterPin, LOW);
     }
     else
     {
-      digitalWrite(heaterPin, HIGH);
+      analogWrite(heaterPin, Output);
     }
     TempCelsius = newcurrenttemp;
   }
