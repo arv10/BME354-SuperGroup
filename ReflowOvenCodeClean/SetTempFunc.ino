@@ -71,7 +71,7 @@ double setthetemperature()
       {
       // Instructions for what to do if no button is pressed.
        lcd.setCursor(cursorPos,1);
-       lcd.print(" ");
+       lcd.print("_");
        delay(100);
       
        lcd.setCursor(0,1);
