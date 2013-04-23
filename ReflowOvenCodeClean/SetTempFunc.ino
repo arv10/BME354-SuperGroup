@@ -62,10 +62,10 @@ double setthetemperature()
         lcd.setCursor(0,1);
         lcd.print("is ");
         lcd.print(settemperature);
-        setTemp = settemperature;
+        Setpoint = settemperature;
         shouldwesetthetemperature=1;
         delay(1000);
-        return setTemp=settemperature;
+        return Setpoint=settemperature;
       }
       case btnNONE:
       {

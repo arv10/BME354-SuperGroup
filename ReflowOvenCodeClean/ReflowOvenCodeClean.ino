@@ -6,16 +6,25 @@
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
-int heaterPin = 13; // set heater pin to 13
-int tempPin = 1; // set temperature sensing pin to 1
-int setTemp = 23; // temp threshold in Celsius
-int lcd_key = 0; // 
+#include <PID_v1.h>
+
+float setTemp = 150; // temp threshold in Celsius
+int lcd_key = 0;
 int adc_key_in = 0;
 int check_key = 0;
 int shouldwesetthetemperature=0;
 int high = 300;
 int low = 20;
 int cursorPos = 2;
+
+int heaterPin = 13; // check this value
+int tempPin = 1;    // check this value
+
+//Define Variables we'll   be connecting to
+double Setpoint, Input, Output;
+
+//Specify the links and initial tuning parameters
+PID myPID(&Input, &Output, &Setpoint,2,0.1,5, DIRECT);
 
 
 void setup()
@@ -28,6 +37,11 @@ void setup()
   lcd.print("Set Temperature");
   lcd.setCursor(1,1); 
   lcd.print(startTemp);
+
+  Setpoint = setTemp;
+  
+  //turn the PID on
+  myPID.SetMode(AUTOMATIC);
   
 }
 
@@ -36,18 +50,24 @@ void loop()
 {
   while (shouldwesetthetemperature == 0)
   {
-	setTemp=setthetemperature();
+	Setpoint=setthetemperature();
   }
+  
+  Input = analogRead(tempPin);
+  myPID.Compute();
+  analogWrite(heaterPin,Output);
+  lcd.setCursor(7,1);
+  lcd.print(Output);
   lcd.setCursor(0,0);
-  lcd.print("               ");
+  lcd.print("                ");
   lcd.setCursor(0,1);
-  lcd.print("               ");
-  heaterdisplay(setTemp);
+  lcd.print("                ");
+  heaterdisplay(Setpoint);
   delay(750);
   lcd.setCursor(0,0);
-  lcd.print("               ");
+  lcd.print("                ");
   lcd.setCursor(0,1);
-  lcd.print("               ");
-  heatersaftey(setTemp);
+  lcd.print("                ");
+  heatersaftey(Setpoint);
   delay(750);
 }
