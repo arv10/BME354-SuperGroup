@@ -1,4 +1,4 @@
-double setthetemperature()
+double setthetemperature(int i)
 {
   int settemperature = low; // the threshold value
   int checkck = 0; 
@@ -56,16 +56,27 @@ double setthetemperature()
       case btnSELECT:
       {
         int checker=0;
-
+        Setpoint[1] = millis()/1000;
+        
+        if (i%2 == 0) {
         lcd.setCursor(0,0);
         lcd.println("The Temperature ");       
         lcd.setCursor(0,1);
         lcd.print("is ");
         lcd.print(settemperature);
-        Setpoint = settemperature;
-        shouldwesetthetemperature=1;
+        Setpoint[i] = settemperature;
+        }
+        else {
+        lcd.setCursor(0,0);
+        lcd.println("The Time ");       
+        lcd.setCursor(0,1);
+        lcd.print("is ");
+        lcd.print(settemperature);
+        Setpoint[i] = settemperature;
+        }
+        
         delay(1000);
-        return Setpoint=settemperature;
+        return Setpoint[i]=settemperature;
       }
       case btnNONE:
       {

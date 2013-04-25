@@ -16,6 +16,7 @@ float TempCelsius = TempVolt/0.005; // test linear relationship
 #define V5 639+50
 #define VNONE 1023
 
+
 int read_LCD_buttons()
 {
   adc_key_in = analogRead(0);    // read the value from the sensor
@@ -74,5 +75,21 @@ void heaterdisplay(double setTemps) // display function
      lcd.print("Set T:");
      lcd.print(setTemps);
      lcd.print("C");
+}
+  
+  
+double ramp(double Setpoint[], int k)
+{
+    Input = getTempCelsius();
+    // t0 is the variable tht we use when we press select
+    
+    delay(10); // checks the slope every .01 second
+    float time = millis()-t0;
+    float den = Setpoint[k]-Setpoint[k-2];
+    float num=Setpoint[k-1]-Setpoint[k-3];
+    UpdatedSetpoint=num*time/den+23;
+    myPID.Compute();
+    analogWrite(heaterPin,Output);
+    return UpdatedSetpoint;
 }
 
