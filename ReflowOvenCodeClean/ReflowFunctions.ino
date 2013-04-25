@@ -1,6 +1,6 @@
 int currentTemp = analogRead(tempPin);
-float TempVolt = currentTemp*(5/1023);
-float TempCelsius = TempVolt/(0.005); // test linear relationship
+float TempVolt = currentTemp*5/1023;
+float TempCelsius = TempVolt/0.005; // test linear relationship
 
 #define btnRIGHT 0
 #define btnUP 1
@@ -28,7 +28,8 @@ int read_LCD_buttons()
   return btnNONE;        // when all others fail, return this...
 }
 
-double getTempCelsius(double currentTemp) {
+double getTempCelsius() {
+  currentTemp = analogRead(tempPin);
   TempVolt = currentTemp*5;
   TempVolt = TempVolt/1023;
   return TempVolt/(0.005); // test linear relationship
@@ -36,7 +37,7 @@ double getTempCelsius(double currentTemp) {
 
 void heatersaftey(double thesettemperature) // saftey function
 {
- TempCelsius = getTempCelsius(currentTemp);
+ TempCelsius = getTempCelsius();
   
   if (TempCelsius < thesettemperature) {
      digitalWrite(heaterPin,HIGH);
@@ -51,15 +52,14 @@ void heatersaftey(double thesettemperature) // saftey function
      lcd.setCursor(0,0);
      lcd.print("RUN AWAY!!");
      lcd.setCursor(0,1);
-     lcd.print("Critical Temp!");
-     currentTemp = analogRead(tempPin); 
-     TempCelsius = getTempCelsius(currentTemp);
+     lcd.print("Critical Temp!"); 
+     TempCelsius = getTempCelsius();
      delay(1000);}
 }
 
 void heaterdisplay(double setTemps) // display function
 {
-  TempCelsius = getTempCelsius(currentTemp);
+  TempCelsius = getTempCelsius();
   
   if (TempCelsius < setTemp) {
      digitalWrite(heaterPin,HIGH); }

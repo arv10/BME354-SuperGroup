@@ -17,8 +17,8 @@ int high = 300;
 int low = 20;
 int cursorPos = 2;
 
-int heaterPin = 13; // check this value
-int tempPin = 1;    // check this value
+int heaterPin = 2; // check this value
+int tempPin = 5;    // check this value
 
 //Define Variables we'll   be connecting to
 double Setpoint, Input, Output;
@@ -58,16 +58,10 @@ void loop()
   analogWrite(heaterPin,Output);
   lcd.setCursor(7,1);
   lcd.print(Output);
-  lcd.setCursor(0,0);
-  lcd.print("                ");
-  lcd.setCursor(0,1);
-  lcd.print("                ");
+  lcd.clear();
   heaterdisplay(Setpoint);
   delay(750);
-  lcd.setCursor(0,0);
-  lcd.print("                ");
-  lcd.setCursor(0,1);
-  lcd.print("                ");
+  lcd.clear();
   heatersaftey(Setpoint);
   delay(750);
 }
