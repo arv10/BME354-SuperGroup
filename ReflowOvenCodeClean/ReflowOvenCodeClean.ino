@@ -15,7 +15,6 @@ int check_key = 0;
 int high = 300;
 int low = 20;
 int cursorPos = 2;
-double t0 = 0;
 double CurrentTime = 0;
 
 int heaterPin = 2; // check this value
@@ -24,7 +23,7 @@ double UpdatedSetpoint = 0;
 
 //Define Variables we'll be connecting to
 double Input, Output;
-double Setpoint[] = {23, 0, 0, 0, 0, 0, 0, 0};
+double Setpoint[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 //Specify the links and initial tuning parameters
 PID myPID(&Input, &Output, &UpdatedSetpoint,2,0.1,5, DIRECT);
@@ -47,7 +46,7 @@ void setup()
   for (int i = 2; i < 7; i = i+2) {
         lcd.clear();
         lcd.print("Set Temp, T");
-        lcd.print(i-1);
+        lcd.print(i/2);
         lcd.print(", C");
         lcd.setCursor(1,1); 
         lcd.print(startTemp);
@@ -55,12 +54,14 @@ void setup()
 
         lcd.clear();
         lcd.print("Set Time, t");
-        lcd.print(i-1);
+        lcd.print(i/2);
         lcd.print(", s");
         lcd.setCursor(1,1); 
         lcd.print(startTemp);
         Setpoint[i+1]=setthetemperature(i+1);
     }
+
+  Setpoint[0] = getTempCelsius();
 
   Serial.println(Setpoint[0]);
   delay(5);
@@ -87,7 +88,7 @@ void setup()
 void loop()
 {
   int seconds = millis()/1000;
-  CurrentTime = seconds-t0;
+  CurrentTime = seconds-Setpoint[1];
   
   Serial.println("In the Void Loop");
   delay(5);  
@@ -111,6 +112,8 @@ void loop()
     Serial.println("Last Case Structure");
     delay(5); 
   }
+  
+  delay(1000);
 }
 
 void UpdateLCD(double target)
@@ -123,4 +126,3 @@ void UpdateLCD(double target)
   delay(750); 
     
 }
-
