@@ -22,7 +22,7 @@ int heaterPin = 2; // check this value
 int tempPin = 5;    // check this value
 double UpdatedSetpoint = 0;
 
-//Define Variables we'll   be connecting to
+//Define Variables we'll be connecting to
 double Input, Output;
 double Setpoint[] = {23, 0, 0, 0, 0, 0, 0, 0};
 
@@ -43,23 +43,45 @@ void setup()
   //turn the PID on
   myPID.SetMode(AUTOMATIC);
   
-  for (int i = 0; i < 3; i++) {
-        lcd.setCursor(0,0);
-        lcd.print("Set Temperature:");
+  Serial.begin(9600);
+  
+  for (int i = 2; i < 5; i++) {
+        lcd.clear();
+        lcd.print("Set Temp, T");
+        lcd.print(i+1);
+        lcd.print(", C");
         lcd.setCursor(1,1); 
         lcd.print(startTemp);
 	Setpoint[i]=setthetemperature(i);
 
-        lcd.setCursor(0,0);
-        lcd.print("Set Time:");
+        lcd.clear();
+        lcd.print("Set Time, t");
+        lcd.print(i+1);
+        lcd.print(", sec");
         lcd.setCursor(1,1); 
         lcd.print(startTemp);
         Setpoint[i+1]=setthetemperature(i+1);
     }
-    
-  Serial.begin(9600);
-  Serial.println("Void Setup Line"); 
-  delay(5); 
+
+  Serial.println(Setpoint[0]);
+  delay(5);
+  Serial.println(Setpoint[1]);
+  delay(5);
+  Serial.println(Setpoint[2]);
+  delay(5);
+  Serial.println(Setpoint[3]);
+  delay(5);
+  Serial.println(Setpoint[4]);
+  delay(5);
+  Serial.println(Setpoint[5]);
+  delay(5);
+  Serial.println(Setpoint[6]);
+  delay(5);
+  Serial.println(Setpoint[7]);
+  delay(5);
+  Serial.println(Setpoint[8]);
+  delay(5);
+  
 }
 
 
@@ -74,25 +96,26 @@ void loop()
   if (CurrentTime < Setpoint[3]) {
     UpdatedSetpoint = ramp(Setpoint, 3);
     UpdateLCD(Setpoint[2]);
-    
+    Serial.println("First If");
+    delay(5); 
   }
- 
   else if (CurrentTime < Setpoint[5]) {
     UpdatedSetpoint = ramp(Setpoint, 5);
     UpdateLCD(Setpoint[4]);
-  
+    Serial.println("Second If");
+    delay(5); 
   }
   
   else if (CurrentTime < Setpoint[5]) {
     UpdatedSetpoint = ramp(Setpoint, 7);
     UpdateLCD(Setpoint[6]);
+    Serial.println("Last Case Structure");
+    delay(5); 
   }
 }
 
 void UpdateLCD(double target)
   { 
-  Serial.println("In the function"); 
-  delay(5); 
   lcd.clear();
   heaterdisplay(target);
   delay(750);
