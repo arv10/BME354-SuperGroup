@@ -1,30 +1,20 @@
-void ramp(int slope, int target)
+double ramp()
 {
-  int currentTemp = analogRead(tempPin);
-  float TempVolt = currentTemp*5;
-  TempVolt = TempVolt/1023;
-  float TempCelsius = TempVolt/0.005;
-  myPid.Compute();
-  analogWrite(heaterPin, Output);
   while(TempCelsius<target)
   {
-    delay(10); // checks the slope every .01 second
-    float newcurrenttemp=analogRead(tempPin);
-    newcurrenttemp=newcurrenttemp*5;
-    newcurrenttemp=newcurrenttemp/1023;
-    newcurrenttemp=newcurrenttemp/.005;
-    float calcslope = (newcurrenttemp-TempCelsius);
-    calcslope=calcsclope/.01;
+    int currentTemp = analogRead(tempPin);
+    float TempVolt = currentTemp*5;
+    TempVolt = TempVolt/1023;
+    float TempCelsius = TempVolt/0.005;
+    Input = TempCelsius;
+    // t0 is the variable tht we use when we press select
+    delay(1); // checks the slope every .001 second
+    float time = millis()-t0;
+    float den = t1-t0;
+    float num=T1-23;
+    Setpoint=num*time/den+23;
     myPid.Compute();
-    // if (calcslope>slope)
-    // {
-    //  analogWrite(heaterPin, LOW);
-    // }
-    // else
-    // {
-    //  analogWrite(heaterPin, Output);
-    // }
     analogWrite(heaterPin,Output);
-    TempCelsius = newcurrenttemp;
   }
+  return Setpoint;
 }
