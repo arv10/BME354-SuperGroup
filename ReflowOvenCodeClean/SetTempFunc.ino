@@ -59,24 +59,22 @@ double setthetemperature(int i)
         Setpoint[1] = millis()/1000;
         
         if (i%2 == 0) {
-        lcd.setCursor(0,0);
+        lcd.clear();
         lcd.println("The Temperature ");       
         lcd.setCursor(0,1);
         lcd.print("is ");
         lcd.print(settemperature);
-        Setpoint[i] = settemperature;
         }
         else {
-        lcd.setCursor(0,0);
+        lcd.clear();
         lcd.println("The Time ");       
         lcd.setCursor(0,1);
         lcd.print("is ");
         lcd.print(settemperature);
-        Setpoint[i] = settemperature;
         }
         
         delay(1000);
-        return Setpoint[i]=settemperature;
+        return settemperature;
       }
       case btnNONE:
       {

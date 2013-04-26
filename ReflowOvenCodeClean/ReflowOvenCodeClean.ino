@@ -45,10 +45,10 @@ void setup()
   
   Serial.begin(9600);
   
-  for (int i = 2; i < 5; i++) {
+  for (int i = 2; i < 7; i = i+2) {
         lcd.clear();
         lcd.print("Set Temp, T");
-        lcd.print(i+1);
+        lcd.print(i-1);
         lcd.print(", C");
         lcd.setCursor(1,1); 
         lcd.print(startTemp);
@@ -56,8 +56,8 @@ void setup()
 
         lcd.clear();
         lcd.print("Set Time, t");
-        lcd.print(i+1);
-        lcd.print(", sec");
+        lcd.print(i-1);
+        lcd.print(", s");
         lcd.setCursor(1,1); 
         lcd.print(startTemp);
         Setpoint[i+1]=setthetemperature(i+1);
@@ -106,7 +106,7 @@ void loop()
     delay(5); 
   }
   
-  else if (CurrentTime < Setpoint[5]) {
+  else if (CurrentTime < Setpoint[7]) {
     UpdatedSetpoint = ramp(Setpoint, 7);
     UpdateLCD(Setpoint[6]);
     Serial.println("Last Case Structure");
