@@ -15,7 +15,7 @@ int adc_key_in = 0;
 int check_key = 0;
 int high = 300;
 int low = 20;
-int cursorPos = 2;
+int cursorPos = 0;
 double t0 = 0;
 double CurrentTime = 0;
 
@@ -50,43 +50,23 @@ void setup()
   myPID.SetMode(AUTOMATIC);
   
   Serial.begin(9600);
+  Serial.println("code started");
+  delay(5);
+
   
   for (int i = 2; i < 7; i = i+2) {
         lcd.clear();
         lcd.print("Set Temp, T");
-        lcd.print(i-1);
+        lcd.print(i/2);
         lcd.print(", C");
-        lcd.setCursor(1,1); 
-        lcd.print(startTemp);
-	Setpoint[i]=setthetemperature(i);
+	Setpoint[i]=setRemote(i);
 
         lcd.clear();
         lcd.print("Set Time, t");
-        lcd.print(i-1);
+        lcd.print(i/2);
         lcd.print(", s");
-        lcd.setCursor(1,1); 
-        lcd.print(startTemp);
-        Setpoint[i+1]=setthetemperature(i+1);
+	Setpoint[i+1]=setRemote(i+1);
     }
-
-  Serial.println(Setpoint[0]);
-  delay(5);
-  Serial.println(Setpoint[1]);
-  delay(5);
-  Serial.println(Setpoint[2]);
-  delay(5);
-  Serial.println(Setpoint[3]);
-  delay(5);
-  Serial.println(Setpoint[4]);
-  delay(5);
-  Serial.println(Setpoint[5]);
-  delay(5);
-  Serial.println(Setpoint[6]);
-  delay(5);
-  Serial.println(Setpoint[7]);
-  delay(5);
-  Serial.println(Setpoint[8]);
-  delay(5);
   
 }
 
@@ -95,9 +75,12 @@ void loop()
 {
   int seconds = millis()/1000;
   CurrentTime = seconds-t0;
-  
-  Serial.println("In the Void Loop");
-  delay(5);  
+
+      if (irrecv.decode(&results)) {
+        int RemoteValue = results.value;
+        Serial.println(RemoteValue);
+        irrecv.resume(); // Receive the next value
+       }
   
   if (CurrentTime < Setpoint[3]) {
     UpdatedSetpoint = ramp(Setpoint, 3);
