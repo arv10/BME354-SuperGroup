@@ -16,7 +16,6 @@ int check_key = 0;
 int high = 300;
 int low = 20;
 int cursorPos = 0;
-double t0 = 0;
 double CurrentTime = 0;
 
 int heaterPin = 2; // check this value
@@ -76,8 +75,8 @@ void setup()
 void loop()
 {
   int seconds = millis()/1000;
-  CurrentTime = seconds-t0;
-
+  CurrentTime = seconds-Setpoint[1];
+  Serial.println(getTempCelsius());
       if (irrecv.decode(&results)) {
         int RemoteValue = results.value;
         Serial.println(RemoteValue);
@@ -101,7 +100,12 @@ void loop()
     UpdatedSetpoint = ramp(Setpoint, 7);
     UpdateLCD(Setpoint[6]);
     Serial.println("Last Case Structure");
-    delay(5); 
+    delay(5);   
+  }
+  else {
+    lcd.clear();
+    lcd.print("You're through!");
+    delay(1000);
   }
 }
 
@@ -115,4 +119,3 @@ void UpdateLCD(double target)
   delay(750); 
     
 }
-
