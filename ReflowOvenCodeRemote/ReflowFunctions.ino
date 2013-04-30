@@ -52,15 +52,18 @@ void heaterdisplay(double setTemps) // display function
 double ramp(double Setpoint[], int k)
 {
     Input = getTempCelsius();
-    // t0 is the variable tht we use when we press select
-    
+    // t0 is the variable that we use when we press select
+    float time;
     delay(10); // checks the slope every .01 second
-    float time = millis()-t0;
+    if (k == 3) {
+      time = millis()/1000-Setpoint[1]; }
+    else {
+      time = millis()/1000-Setpoint[1]-Setpoint[k-2]; }
+      
     float den = Setpoint[k]-Setpoint[k-2];
     float num=Setpoint[k-1]-Setpoint[k-3];
-    UpdatedSetpoint=num*time/den+23;
+    UpdatedSetpoint=num*time/den+Setpoint[k-3];
     myPID.Compute();
     analogWrite(heaterPin,Output);
     return UpdatedSetpoint;
 }
-
