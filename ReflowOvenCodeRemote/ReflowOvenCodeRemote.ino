@@ -25,7 +25,7 @@ double UpdatedSetpoint = 0;
 
 //Define Variables we'll be connecting to
 double Input, Output;
-double Setpoint[] = {23, 0, 0, 0, 0, 0, 0, 0};
+double Setpoint[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 //Specify the links and initial tuning parameters
 PID myPID(&Input, &Output, &UpdatedSetpoint,2,0.1,5, DIRECT);
@@ -52,6 +52,8 @@ void setup()
   Serial.begin(9600);
   Serial.println("code started");
   delay(5);
+  
+  Setpoint[0] = getTempCelsius();
 
   
   for (int i = 2; i < 7; i = i+2) {
