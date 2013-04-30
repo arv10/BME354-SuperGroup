@@ -70,6 +70,11 @@ double setRemote(int i)
             digits[cursorPos] = 9;
             break; }
           case 255: {                 // play button push case "Select"
+            if (SetValue>300 || SetValue<20)
+          {lcd.clear();
+           lcd.print("Invalid Input");}
+            else
+            {          
             Setpoint[1] = millis()/1000;
             
             lcd.clear();
@@ -87,6 +92,7 @@ double setRemote(int i)
             }
             delay(1000);
             return SetValue;
+            }
           }
       }
       cursorPos = cursorPos + 1;
