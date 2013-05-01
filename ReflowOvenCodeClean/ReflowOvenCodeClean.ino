@@ -17,10 +17,12 @@ int low = 20;
 int cursorPos = 2;
 double CurrentTime = 0;
 double t0;
+int DisplayTime;
 
 int heaterPin = 2; // check this value
 int tempPin = 5;    // check this value
 double UpdatedSetpoint = 0;
+double Error;
 
 //Define Variables we'll be connecting to
 double Input, Output;
@@ -63,7 +65,8 @@ void setup()
     }
 
   Setpoint[0] = getTempCelsius();
-
+  DisplayTime = Setpoint[7];
+  
   Serial.println(Setpoint[0]);
   delay(5);
   Serial.println(Setpoint[1]);
@@ -80,8 +83,6 @@ void setup()
   delay(5);
   Serial.println(Setpoint[7]);
   delay(5);
-  Serial.println(Setpoint[8]);
-  delay(5);
   
 }
 
@@ -90,6 +91,8 @@ void loop()
 {
   int seconds = millis()/1000;
   CurrentTime = seconds-t0;
+  float TempCelsius = getTempCelsius(); // test linear relationship
+  DisplayTime = Setpoint[7] - CurrentTime;
   
   Serial.println("In the Void Loop");
   delay(5);  
@@ -97,30 +100,69 @@ void loop()
   if (CurrentTime < Setpoint[3]) {
     UpdatedSetpoint = ramp(Setpoint, 3);
     UpdateLCD(Setpoint[2]);
+    
+    Error = UpdatedSetpoint - TempCelsius;
+    Error = Error / UpdatedSetpoint;
+    
     Serial.println("First If");
-    Serial.println(UpdatedSetpoint);
+    Serial.println("Current Time: ");    
+    Serial.print(CurrentTime);
+    Serial.println("\n Updated Set Point: ");
+    Serial.print(UpdatedSetpoint);
+    Serial.println("\n Error: ");
+    Serial.print(Error);
+    Serial.println("");
     delay(5); 
   }
   else if (CurrentTime < Setpoint[5]) {
     UpdatedSetpoint = ramp(Setpoint, 5);
     UpdateLCD(Setpoint[4]);
+    
+    Error = UpdatedSetpoint - TempCelsius;
+    Error = Error / UpdatedSetpoint;
+    
     Serial.println("Second If");
-    Serial.println(UpdatedSetpoint);
+    Serial.println("Current Time: ");
+    Serial.print(CurrentTime);
+    Serial.println("\n Updated Set Point: ");
+    Serial.print(UpdatedSetpoint);
+    Serial.println("\n Error: ");
+    Serial.print(Error);
+    Serial.println("");
     delay(5); 
   }
   
   else if (CurrentTime < Setpoint[7]) {
     UpdatedSetpoint = ramp(Setpoint, 7);
     UpdateLCD(Setpoint[6]);
+    
+    Error = UpdatedSetpoint - TempCelsius;
+    Error = Error / UpdatedSetpoint;
+    
     Serial.println("Last Case Structure");
-    Serial.println(UpdatedSetpoint);
+    Serial.println("Current Time: ");
+    Serial.print(CurrentTime);
+    Serial.println("\n Updated Set Point: ");
+    Serial.print(UpdatedSetpoint);
+    Serial.println("\n Error: ");
+    Serial.print(Error);
+    Serial.println("");
     delay(5); 
   }
+  
   
   else {
    UpdateLCD(Setpoint[6]);
    Serial.println("You're Through!");
    delay(5);
+  }
+  
+  if (analogRead(0)<1023){
+    while(true)
+    {
+      Serial.println("ABORT!");
+      digitalWrite(heaterPin, LOW);
+    }
   }
   delay(1000);
 }
