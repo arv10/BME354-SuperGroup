@@ -27,7 +27,7 @@ double Input, Output;
 double Setpoint[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 //Specify the links and initial tuning parameters
-PID myPID(&Input, &Output, &UpdatedSetpoint,2,5,0.1, DIRECT);
+PID myPID(&Input, &Output, &UpdatedSetpoint,5,5,0.1, DIRECT);
 
 void setup()
 {
