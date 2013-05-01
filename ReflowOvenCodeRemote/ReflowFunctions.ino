@@ -5,7 +5,7 @@ float TempCelsius = TempVolt/0.005; // test linear relationship
 double getTempCelsius() {
   currentTemp = analogRead(tempPin);
   TempVolt = currentTemp*5/1023;
-  return TempVolt/(0.005); // test linear relationship
+  return TempVolt/0.005; // test linear relationship
   }
 
 void heatersaftey(double thesettemperature) // saftey function
