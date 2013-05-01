@@ -15,11 +15,17 @@ void heatersaftey(double thesettemperature) // saftey function
   if (TempCelsius < UpdatedSetpoint) {
      digitalWrite(heaterPin,HIGH);
      lcd.setCursor(0,0);
-     lcd.print("Heater ON!");}
+     lcd.print("Heater ON!");
+     lcd.print(Error);
+     lcd.setCursor(0, 1);
+     lcd.print(DisplayTime);}
   else {
      digitalWrite(heaterPin,LOW);
      lcd.setCursor(0,0);
-     lcd.print("Heater OFF"); }
+     lcd.print("Heater OFF");
+     lcd.print(Error);
+     lcd.setCursor(0, 1);
+     lcd.print(DisplayTime);}
    
   while (TempCelsius >= 300) {
      lcd.setCursor(0,0);
