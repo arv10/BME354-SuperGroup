@@ -12,10 +12,10 @@ void heatersaftey(double thesettemperature) // saftey function
 {
  TempCelsius = getTempCelsius();
   
-  if (TempCelsius < thesettemperature) {
+  if (TempCelsius < UpdatedSetpoint) {
      digitalWrite(heaterPin,HIGH);
      lcd.setCursor(0,0);
-     lcd.print("Heater ON!"); }
+     lcd.print("Heater ON!");}
   else {
      digitalWrite(heaterPin,LOW);
      lcd.setCursor(0,0);
@@ -34,7 +34,7 @@ void heaterdisplay(double setTemps) // display function
 {
   TempCelsius = getTempCelsius();
   
-  if (TempCelsius < setTemp) {
+  if (TempCelsius < UpdatedSetpoint) {
      digitalWrite(heaterPin,HIGH); }
   else {
      digitalWrite(heaterPin,LOW); }
@@ -55,10 +55,7 @@ double ramp(double Setpoint[], int k)
     // t0 is the variable that we use when we press select
     float time;
     delay(10); // checks the slope every .01 second
-    if (k == 3) {
-      time = millis()/1000-Setpoint[1]; }
-    else {
-      time = millis()/1000-Setpoint[1]-Setpoint[k-2]; }
+    time = millis()/1000-t0-Setpoint[k-2];
       
     float den = Setpoint[k]-Setpoint[k-2];
     float num=Setpoint[k-1]-Setpoint[k-3];
