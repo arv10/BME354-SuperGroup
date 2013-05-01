@@ -56,7 +56,7 @@ double setthetemperature(int i)
       case btnSELECT:
       {
         int checker=0;
-        Setpoint[1] = millis()/1000;
+        t0 = millis()/1000;
         
         if (i%2 == 0) {
         lcd.clear();
