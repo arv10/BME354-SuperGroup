@@ -16,6 +16,7 @@ int high = 300;
 int low = 20;
 int cursorPos = 2;
 double CurrentTime = 0;
+double t0;
 
 int heaterPin = 2; // check this value
 int tempPin = 5;    // check this value
@@ -26,7 +27,7 @@ double Input, Output;
 double Setpoint[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 //Specify the links and initial tuning parameters
-PID myPID(&Input, &Output, &UpdatedSetpoint,2,0.1,5, DIRECT);
+PID myPID(&Input, &Output, &UpdatedSetpoint,2,5,0.1, DIRECT);
 
 void setup()
 {
@@ -88,7 +89,7 @@ void setup()
 void loop()
 {
   int seconds = millis()/1000;
-  CurrentTime = seconds-Setpoint[1];
+  CurrentTime = seconds-t0;
   
   Serial.println("In the Void Loop");
   delay(5);  
@@ -97,12 +98,14 @@ void loop()
     UpdatedSetpoint = ramp(Setpoint, 3);
     UpdateLCD(Setpoint[2]);
     Serial.println("First If");
+    Serial.println(UpdatedSetpoint);
     delay(5); 
   }
   else if (CurrentTime < Setpoint[5]) {
     UpdatedSetpoint = ramp(Setpoint, 5);
     UpdateLCD(Setpoint[4]);
     Serial.println("Second If");
+    Serial.println(UpdatedSetpoint);
     delay(5); 
   }
   
@@ -110,9 +113,15 @@ void loop()
     UpdatedSetpoint = ramp(Setpoint, 7);
     UpdateLCD(Setpoint[6]);
     Serial.println("Last Case Structure");
+    Serial.println(UpdatedSetpoint);
     delay(5); 
   }
   
+  else {
+   UpdateLCD(Setpoint[6]);
+   Serial.println("You're Through!");
+   delay(5);
+  }
   delay(1000);
 }
 
