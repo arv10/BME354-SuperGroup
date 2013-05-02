@@ -15,45 +15,47 @@ double getTempCelsius() {
   return TempVolt/0.005;                                                  // Converting analog voltage to temperature measurements
   }
 
+// Function to turn heater on and off, and display state of heater, error, and time remaining
 void heatersaftey() // saftey function
 {
- TempCelsius = getTempCelsius();
+ TempCelsius = getTempCelsius();                                          // Receiving temperature in degrees Celsius
   
-  if (TempCelsius < UpdatedSetpoint) {
-     digitalWrite(heaterPin,HIGH);
+  if (TempCelsius < UpdatedSetpoint) {                                    // When the current temperature of the heater is less than the updated set temperature:
+     digitalWrite(heaterPin,HIGH);                                        // Heater is turned on
      lcd.setCursor(0,0);
-     lcd.print("Heater ON!");
+     lcd.print("Heater ON!");                                             // LCD displays that the heater is turned on
+     lcd.setCursor(0, 1);
+     lcd.print("Err:");                                                   
+     lcd.print(Error);                                                    // LCD displays the error
+     lcd.print(" T-");                                
+     lcd.print(DisplayTime);}                                             // LCD displays the time remaining
+  else {                                                                  // When the current temperature is greater than or equal to the updated set temperature:
+     digitalWrite(heaterPin,LOW);                                         // Heater is turned off                                         
+     lcd.setCursor(0,0);  
+     lcd.print("Heater OFF");                                             // LCD displays that the heater is turned off
      lcd.setCursor(0, 1);
      lcd.print("Err:");
-     lcd.print(Error);
+     lcd.print(Error);                                                    // LCD displays the error
      lcd.print(" T-");
-     lcd.print(DisplayTime);}
-  else {
-     digitalWrite(heaterPin,LOW);
-     lcd.setCursor(0,0);
-     lcd.print("Heater OFF");
-     lcd.setCursor(0, 1);
-     lcd.print("Err:");
-     lcd.print(Error);    
-     lcd.print(" T-");
-     lcd.print(DisplayTime);}
+     lcd.print(DisplayTime);}                                             // LCD displays the time remaining
    
-  while (TempCelsius >= 300) {
+  while (TempCelsius >= 300) {                                            // When the current temperature is greater than or equal to 300 degrees Celsius:
      lcd.setCursor(0,0);
-     lcd.print("RUN AWAY!!");
+     lcd.print("RUN AWAY!!");                                             // LCD displays "RUN AWAY!!"
      lcd.setCursor(0,1);
-     lcd.print("Critical Temp!"); 
+     lcd.print("Critical Temp!");                                         // LCD displays "Critical Temp!"
      TempCelsius = getTempCelsius();
      delay(1000);}
 }
 
+// Function to turn heater on and off, and display current temperature and input temperatures from user during each region of reflow curve
 void heaterdisplay(double setTemps) // display function
 {
-  TempCelsius = getTempCelsius();
+  TempCelsius = getTempCelsius();                                         // Receiving temperature in degrees Celsius
   
-  if (TempCelsius < UpdatedSetpoint) {
-     digitalWrite(heaterPin,HIGH); }
-  else {
+  if (TempCelsius < UpdatedSetpoint) {                                    // When the current temperature is less than the updated set temperature:
+     digitalWrite(heaterPin,HIGH); }                                      // Heater is turned on
+  else {                                                                  // When the current temperature is greater than or equal to the updated set temperature:
      digitalWrite(heaterPin,LOW); }
     
      lcd.setCursor(0,0);
