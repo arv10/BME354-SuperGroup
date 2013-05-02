@@ -68,14 +68,14 @@ void heaterdisplay(double setTemps) // display function
      lcd.print("C");
 }
 
-// Function to 
+// Function to control updated set temperature in each region
 double ramp(double Setpoint[], int k)
 {
-    Input = getTempCelsius();
+    Input = getTempCelsius();                                             // Receiving temperature in degrees Celsius
     // t0 is the variable that we use when we press select
-    float time;
-    delay(10); // checks the slope every .01 second
-    time = millis()/1000-t0-Setpoint[k-2];
+    float time;                                                           // Declaring time
+    delay(10);                                                            // Checks the updated set temperature every .01 second
+    time = millis()/1000-t0-Setpoint[k-2];                                // Time is made into a relative 
       
     float den = Setpoint[k]-Setpoint[k-2];
     float num=Setpoint[k-1]-Setpoint[k-3];
