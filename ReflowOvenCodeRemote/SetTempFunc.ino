@@ -75,17 +75,17 @@ double setRemote(int i)
            lcd.print("Invalid Input");}
             else
             {          
-            Setpoint[1] = millis()/1000;
+            t0 = millis()/1000;
             
             lcd.clear();
             if (i%2 == 0) {
-              lcd.println("The Temperature ");       
+              lcd.print("The Temperature ");       
               lcd.setCursor(0,1);
               lcd.print("is ");
               lcd.print(SetValue);
             }
             else {
-              lcd.println("The Set Time ");       
+              lcd.print("The Set Time ");       
               lcd.setCursor(0,1);
               lcd.print("is ");
               lcd.print(SetValue);
