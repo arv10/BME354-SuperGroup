@@ -18,7 +18,10 @@ double setRemote(int i)
       
       SetValue = 100*digits[0]+10*digits[1]+digits[2];          // Calculating numerical value based on digits
       
-      lcd.setCursor(0,1);
+      
+      // This block of code displays the number of available digits
+      // and updates the position of each based on user input
+      lcd.setCursor(0,1); 
       if (buttonPushed == 0) {
         lcd.print("___"); }
       else if (buttonPushed == 1) {
@@ -98,7 +101,7 @@ double setRemote(int i)
             }
           }
       }
-      cursorPos = cursorPos + 1;
+      cursorPos = cursorPos + 1;                        // shifts the cursor right after each loop
       }
       else {
        lcd.setCursor(cursorPos,1);
