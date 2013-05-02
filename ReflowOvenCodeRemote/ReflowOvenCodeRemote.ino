@@ -9,12 +9,12 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 #include <PID_v1.h>
 #include <IRremote.h>
 
-float setTemp = 150; // temp threshold in Celsius
+float setTemp = 150; // temp threshold in Celsius    // unnecessary
 int lcd_key = 0;
 int adc_key_in = 0;
 int check_key = 0;
-int high = 300;
-int low = 20;
+int high = 300;                                      // unnecessary
+int low = 20;                                        // unnecessary
 int cursorPos = 2;
 double CurrentTime = 0;
 double t0;
@@ -27,10 +27,10 @@ double Error;
 
 //Define Variables we'll be connecting to
 double Input, Output;
-double Setpoint[] = {0, 0, 0, 0, 0, 0, 0, 0};
+double Setpoint[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 //Specify the links and initial tuning parameters
-PID myPID(&Input, &Output, &UpdatedSetpoint,2,0.1,5, DIRECT);
+PID myPID(&Input, &Output, &UpdatedSetpoint,5,5,0.1, DIRECT);
 
 int irReceiverPin = 3;
 IRrecv irrecv(irReceiverPin);
@@ -41,12 +41,12 @@ void setup()
 
   irrecv.enableIRIn();
   
-  int startTemp = low; // start setting the Temp at 0.00
+  int startTemp = low; // start setting the Temp at 0.00            // unnecessary
   lcd.begin(16,2);
   pinMode(heaterPin,OUTPUT); // heaterPin is set as an output
   
 
-  // Setpoint = setTemp;
+  // Setpoint = setTemp;                                            // unnecessary
   
   //turn the PID on
   myPID.SetMode(AUTOMATIC);
@@ -71,6 +71,9 @@ void setup()
     }
   
 	Setpoint[0] = getTempCelsius();
+        DisplayTime = Setpoint[7];
+        Setpoint[8] = Setpoint[6];
+        Setpoint[9] = Setpoint[7]+45;
 
 	Serial.println(Setpoint[0]);
   	delay(5);
@@ -88,6 +91,10 @@ void setup()
   	delay(5);
   	Serial.println(Setpoint[7]);
   	delay(5);
+        Serial.println(Setpoint[8]);
+  	delay(5);
+  	Serial.println(Setpoint[9]);
+  	delay(5);
   
 }
 
@@ -97,9 +104,11 @@ void loop()
   int seconds = millis()/1000;
   CurrentTime = seconds-t0;
   float TempCelsius = getTempCelsius();
-  DisplayTime = Setpoint[7] - CurrentTime;
+  DisplayTime = Setpoint[9] - CurrentTime;
 
   Serial.println(getTempCelsius());
+  
+ 
       if (irrecv.decode(&results)) {
         int RemoteValue = results.value;
         Serial.println(RemoteValue);
@@ -113,14 +122,15 @@ void loop()
     Error = UpdatedSetpoint - TempCelsius;
     Error = Error / UpdatedSetpoint;
 
-    Serial.println("First If");
-    Serial.println("Current Time: ");    
-    Serial.print(CurrentTime);
-    Serial.println("\n Updated Set Point: ");
-    Serial.print(UpdatedSetpoint);
-    Serial.println("\n Error: ");
-    Serial.print(Error);
-    Serial.println("");
+    Serial.println(TempCelsius);
+    //Serial.println("First If");
+    //Serial.println("Current Time: ");    
+    Serial.println(CurrentTime);
+    //Serial.println("\n Updated Set Point: ");
+    //Serial.print(UpdatedSetpoint);
+    //Serial.println("\n Error: ");
+    Serial.println(Error);
+    //Serial.println("");
     delay(5); 
   }
 
@@ -131,14 +141,15 @@ void loop()
     Error = UpdatedSetpoint - TempCelsius;
     Error = Error / UpdatedSetpoint;
 
-    Serial.println("Second If");
-    Serial.println("Current Time: ");
-    Serial.print(CurrentTime);
-    Serial.println("\n Updated Set Point: ");
-    Serial.print(UpdatedSetpoint);
-    Serial.println("\n Error: ");
-    Serial.print(Error);
-    Serial.println("");
+    Serial.println(TempCelsius);
+    //Serial.println("Second If");
+    //Serial.println("Current Time: ");
+    Serial.println(CurrentTime);
+    //Serial.println("\n Updated Set Point: ");
+    //Serial.print(UpdatedSetpoint);
+    //Serial.println("\n Error: ");
+    Serial.println(Error);
+    //Serial.println("");
     delay(5); 
   }
   
@@ -149,22 +160,74 @@ void loop()
     Error = UpdatedSetpoint - TempCelsius;
     Error = Error / UpdatedSetpoint;
 
-    Serial.println("Last Case Structure");
-    Serial.println("Current Time: ");
-    Serial.print(CurrentTime);
-    Serial.println("\n Updated Set Point: ");
-    Serial.print(UpdatedSetpoint);
-    Serial.println("\n Error: ");
-    Serial.print(Error);
-    Serial.println("");
+    Serial.println(TempCelsius);
+    //Serial.println("Last Case Structure");
+    //Serial.println("Current Time: ");
+    Serial.println(CurrentTime);
+    //Serial.println("\n Updated Set Point: ");
+    //Serial.print(UpdatedSetpoint);
+    //Serial.println("\n Error: ");
+    Serial.println(Error);
+    //Serial.println("");
+    delay(5);   
+  }
+  
+  else if (CurrentTime < Setpoint[9]) {
+    UpdatedSetpoint = ramp(Setpoint, 9);
+    UpdateLCD(Setpoint[8]);
+
+    Error = UpdatedSetpoint - TempCelsius;
+    Error = Error / UpdatedSetpoint;
+    
+    Serial.println(TempCelsius);
+    //Serial.println("Last Case Structure");
+    //Serial.println("Current Time: ");
+    Serial.println(CurrentTime);
+    //Serial.println("\n Updated Set Point: ");
+    //Serial.print(UpdatedSetpoint);
+    //Serial.println("\n Error: ");
+    Serial.println(Error);
+    //Serial.println("");
     delay(5);   
   }
 
   else {
     lcd.clear();
+    digitalWrite(heaterPin,LOW);
     lcd.print("You're through!");
+    lcd.print("Temp: ");
+    lcd.print(TempCelsius);
+    Serial.println(TempCelsius);
+    Serial.println(CurrentTime);
+    Serial.println("NA");
     delay(1000);
   }
+  Serial.println("Button Press Number:");
+  Serial.println(results.value);
+  
+  if (irrecv.decode(&results)) {
+        int RemoteValue = results.value;
+        if (RemoteValue == 8415) {
+        while (true) {                // 0 button push case
+            lcd.clear();
+            lcd.print("Arduino");
+            lcd.setCursor(0,1);
+            lcd.print("Interrupted");
+            digitalWrite(heaterPin, LOW);
+            delay(1000);
+            }
+        }
+       }
+  
+  
+
+  
+  // if (analogRead(0)<1023){
+  //  while(true)
+  //  {
+  //    Serial.println("ABORT!");
+  //    digitalWrite(heaterPin, LOW);
+  //  }
 }
 
 void UpdateLCD(double target)
@@ -173,7 +236,7 @@ void UpdateLCD(double target)
   heaterdisplay(target);
   delay(750);
   lcd.clear();
-  heatersaftey(target);
+  heatersaftey();
   delay(750); 
     
 }
