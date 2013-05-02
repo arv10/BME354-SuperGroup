@@ -72,15 +72,15 @@ void heaterdisplay(double setTemps) // display function
 double ramp(double Setpoint[], int k)
 {
     Input = getTempCelsius();                                             // Receiving temperature in degrees Celsius
-                                                                          // t0 is the variable that we use when we press select
+                                                                          // t0 is the absolute time from when the code began running the Select button is pressed to begin heating
     float time;                                                           // Declaring time
     delay(10);                                                            // Checks the updated set temperature every .01 second
     time = millis()/1000-t0-Setpoint[k-2];                                // Time is made into a relative 
       
-    float den = Setpoint[k]-Setpoint[k-2];
-    float num=Setpoint[k-1]-Setpoint[k-3];
-    UpdatedSetpoint=num*time/den+Setpoint[k-3];
-    myPID.Compute();
-    analogWrite(heaterPin,Output);
-    return UpdatedSetpoint;
+    float den = Setpoint[k]-Setpoint[k-2];                                // Denominator of slope of temperature change (input time at end of region minus input time at beginning of region)
+    float num=Setpoint[k-1]-Setpoint[k-3];                                // Numerator of slope of temperature change (input temperature at end of region minus input temperature at beginning of region)
+    UpdatedSetpoint=num*time/den+Setpoint[k-3];                           // Linear equation for updated set temperature
+    myPID.Compute();                                                      // Using PID to determine PWM
+    analogWrite(heaterPin,Output);                                        // Turning heater on or off based on output of PID
+    return UpdatedSetpoint;                                               // Returning updated set temperature for comparison with heater's current temperature
 }
