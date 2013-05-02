@@ -1,14 +1,16 @@
 int currentTemp = analogRead(tempPin);
-float TempVolt = currentTemp*5/1023;
-float TempCelsius = TempVolt/0.005; // test linear relationship
+float TempVolt = currentTemp*5;
+float TempVoltInt = TempVolt/1023;
+float TempCelsius = TempVoltInt/0.005; // test linear relationship
 
 double getTempCelsius() {
   currentTemp = analogRead(tempPin);
-  TempVolt = currentTemp*5/1023;
+  TempVolt = currentTemp*5;
+  TempVolt = TempVolt/1023;
   return TempVolt/0.005; // test linear relationship
   }
 
-void heatersaftey(double thesettemperature) // saftey function
+void heatersaftey() // saftey function
 {
  TempCelsius = getTempCelsius();
   
@@ -16,15 +18,19 @@ void heatersaftey(double thesettemperature) // saftey function
      digitalWrite(heaterPin,HIGH);
      lcd.setCursor(0,0);
      lcd.print("Heater ON!");
-     lcd.print(Error);
      lcd.setCursor(0, 1);
+     lcd.print("Err:");
+     lcd.print(Error);
+     lcd.print(" T-");
      lcd.print(DisplayTime);}
   else {
      digitalWrite(heaterPin,LOW);
      lcd.setCursor(0,0);
      lcd.print("Heater OFF");
-     lcd.print(Error);
      lcd.setCursor(0, 1);
+     lcd.print("Err:");
+     lcd.print(Error);    
+     lcd.print(" T-");
      lcd.print(DisplayTime);}
    
   while (TempCelsius >= 300) {
