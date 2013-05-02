@@ -1,5 +1,6 @@
 // ---------------------- Functions to record user inputs of temperature and time ------------------------------
 
+// Initializing variables to be used
 double setRemote(int i) 
 {
   int checkck = 0;
@@ -12,10 +13,10 @@ double setRemote(int i)
   while (checkck == 0) 
   {
       
-      if (cursorPos >= 3) {
+      if (cursorPos >= 3) {                                     // If the cursor position is moved "right" of the rightward most position, cursor wraps around to most leftward digit
         cursorPos = 0; }
       
-      SetValue = 100*digits[0]+10*digits[1]+digits[2];
+      SetValue = 100*digits[0]+10*digits[1]+digits[2];          // Calculating numerical value based on digits
       
       lcd.setCursor(0,1);
       if (buttonPushed == 0) {
@@ -72,21 +73,21 @@ double setRemote(int i)
             digits[cursorPos] = 9;
             break; }
           case 255: {                 // play button push case "Select"
-            if (SetValue>300 || SetValue<20)
+            if (SetValue>300 || SetValue<20)            // If the input is greater than or equal to 300, or less than 20, the LCD displays "Invalid Input" and requires an allowable input.
           {lcd.clear();
            lcd.print("Invalid Input");}
             else
             {          
-            t0 = millis()/1000;
+            t0 = millis()/1000;                         // Variable t0 is the time when the reflow curve begins from the program was run
             
-            lcd.clear();
-            if (i%2 == 0) {
+            lcd.clear();                                
+            if (i%2 == 0) {                             // LCD screen displays the set temperature after chosen by user
               lcd.print("The Temperature ");       
               lcd.setCursor(0,1);
               lcd.print("is ");
               lcd.print(SetValue);
             }
-            else {
+            else {                                      // LCD screen displays the set time after chosen by user
               lcd.print("The Set Time ");       
               lcd.setCursor(0,1);
               lcd.print("is ");
