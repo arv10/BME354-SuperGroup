@@ -123,14 +123,8 @@ void loop()
     Error = Error / UpdatedSetpoint;
 
     Serial.println(TempCelsius);
-    //Serial.println("First If");
-    //Serial.println("Current Time: ");    
     Serial.println(CurrentTime);
-    //Serial.println("\n Updated Set Point: ");
-    //Serial.print(UpdatedSetpoint);
-    //Serial.println("\n Error: ");
     Serial.println(Error);
-    //Serial.println("");
     delay(5); 
   }
 
@@ -142,14 +136,8 @@ void loop()
     Error = Error / UpdatedSetpoint;
 
     Serial.println(TempCelsius);
-    //Serial.println("Second If");
-    //Serial.println("Current Time: ");
     Serial.println(CurrentTime);
-    //Serial.println("\n Updated Set Point: ");
-    //Serial.print(UpdatedSetpoint);
-    //Serial.println("\n Error: ");
     Serial.println(Error);
-    //Serial.println("");
     delay(5); 
   }
   
@@ -161,14 +149,8 @@ void loop()
     Error = Error / UpdatedSetpoint;
 
     Serial.println(TempCelsius);
-    //Serial.println("Last Case Structure");
-    //Serial.println("Current Time: ");
     Serial.println(CurrentTime);
-    //Serial.println("\n Updated Set Point: ");
-    //Serial.print(UpdatedSetpoint);
-    //Serial.println("\n Error: ");
     Serial.println(Error);
-    //Serial.println("");
     delay(5);   
   }
   
@@ -180,14 +162,8 @@ void loop()
     Error = Error / UpdatedSetpoint;
     
     Serial.println(TempCelsius);
-    //Serial.println("Last Case Structure");
-    //Serial.println("Current Time: ");
     Serial.println(CurrentTime);
-    //Serial.println("\n Updated Set Point: ");
-    //Serial.print(UpdatedSetpoint);
-    //Serial.println("\n Error: ");
     Serial.println(Error);
-    //Serial.println("");
     delay(5);   
   }
 
