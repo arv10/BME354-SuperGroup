@@ -56,18 +56,19 @@ void heaterdisplay(double setTemps) // display function
   if (TempCelsius < UpdatedSetpoint) {                                    // When the current temperature is less than the updated set temperature:
      digitalWrite(heaterPin,HIGH); }                                      // Heater is turned on
   else {                                                                  // When the current temperature is greater than or equal to the updated set temperature:
-     digitalWrite(heaterPin,LOW); }
+     digitalWrite(heaterPin,LOW); }                                       // Heater is turned off
     
      lcd.setCursor(0,0);
-     lcd.print("Current T:");
-     lcd.print(TempCelsius);
+     lcd.print("Current T:");                                             
+     lcd.print(TempCelsius);                                              // LCD displays current temperature
      lcd.print("C");
      lcd.setCursor(0,1);
      lcd.print("Set T:");
-     lcd.print(setTemps);
+     lcd.print(setTemps);                                                 // LCD displays input temperature from user for each region of reflow curve (end temperature of each region)
      lcd.print("C");
 }
-  
+
+// Function to 
 double ramp(double Setpoint[], int k)
 {
     Input = getTempCelsius();
