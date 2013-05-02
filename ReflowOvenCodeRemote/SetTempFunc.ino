@@ -1,3 +1,5 @@
+// ---------------------- Functions to record user inputs of temperature and time ------------------------------
+
 double setRemote(int i) 
 {
   int checkck = 0;
