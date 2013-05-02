@@ -1,13 +1,18 @@
-int currentTemp = analogRead(tempPin);
-float TempVolt = currentTemp*5;
-float TempVoltInt = TempVolt/1023;
-float TempCelsius = TempVoltInt/0.005; // test linear relationship
+// ------------------ Initializing variables to be called in subsequent functions -----------------------------
 
-double getTempCelsius() {
-  currentTemp = analogRead(tempPin);
-  TempVolt = currentTemp*5;
+int currentTemp = analogRead(tempPin);                                    // Reading binary values from 0 to 1023 as proxy for temperature
+float TempVolt = currentTemp*5;                                           // Converting binary values to analog voltages from 0 to 5 V
+float TempVoltInt = TempVolt/1023;
+float TempCelsius = TempVoltInt/0.005;                                    // Converting analog voltage to temperature measurements        
+
+// ------------------ Functions called in master code ---------------------------------------------------------
+
+// Function to read temperature in degrees Celsius
+double getTempCelsius() { 
+  currentTemp = analogRead(tempPin);                                      // Reading binary values from 0 to 1023 as proxy for temperature
+  TempVolt = currentTemp*5;                                               // Converting binary values to analog voltages from 0 to 5 V
   TempVolt = TempVolt/1023;
-  return TempVolt/0.005; // test linear relationship
+  return TempVolt/0.005;                                                  // Converting analog voltage to temperature measurements
   }
 
 void heatersaftey() // saftey function
