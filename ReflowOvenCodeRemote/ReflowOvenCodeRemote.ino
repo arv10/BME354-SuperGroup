@@ -11,12 +11,9 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 #include <PID_v1.h>				// include PID library
 #include <IRremote.h>				// include Remote library
 
-float setTemp = 150; // temp threshold in Celsius    // unnecessary
 int lcd_key = 0;
 int adc_key_in = 0;
 int check_key = 0;
-int high = 300;                                      // unnecessary
-int low = 20;                                        // unnecessary
 int cursorPos = 2;
 double CurrentTime = 0;
 double t0;
@@ -45,7 +42,6 @@ void setup()
 
   irrecv.enableIRIn();					// enable the IR sensor to receive signal
   
-  int startTemp = low; 				        // unnecessary
   lcd.begin(16,2);
   pinMode(heaterPin,OUTPUT); 				// heaterPin is set as an output
   
@@ -114,14 +110,6 @@ void loop()
 
   Serial.println(getTempCelsius());
   
-  // REMOVE THIS:
-      if (irrecv.decode(&results)) {
-        int RemoteValue = results.value;
-        Serial.println(RemoteValue);
-        irrecv.resume(); // Receive the next value
-       }
-  // UNTIL HERE
-  
   // ------- If,Else If,Else structure that executes ramping code (to calculate the new set point)
   // and updates the display based on the values associated with each phase of the reflow oven -------
 
@@ -180,7 +168,8 @@ void loop()
   else {						// finished!
     lcd.clear();
     digitalWrite(heaterPin,LOW);			// the heater was turned off
-    lcd.print("You're through!");			// turn on the fan for expidited heating
+    lcd.print("You're through!");                       // turn on the fan for expedited heating
+    lcd.setCursor(0,1);			
     lcd.print("Temp: ");
     lcd.print(TempCelsius);
     Serial.println(TempCelsius);
@@ -188,8 +177,6 @@ void loop()
     Serial.println("NA");
     delay(1000);
   }
-  Serial.println("Button Press Number:");
-  Serial.println(results.value);
   
   // --------- Code for Interupt (if EQ button is pushed) --------
   if (irrecv.decode(&results)) {		
@@ -197,7 +184,7 @@ void loop()
         if (RemoteValue == 8415) {			// Checks if EQ button was pushed
         while (true) {                			// Condition indicates infinite loop
             lcd.clear();
-            lcd.print("Arduino");
+            lcd.print("Arduino,");
             lcd.setCursor(0,1);
             lcd.print("Interrupted");
             digitalWrite(heaterPin, LOW);		// Oven is turned off indefinitely
