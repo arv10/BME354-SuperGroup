@@ -1,13 +1,15 @@
 // master code with temperature setting, heater control, and safety
 
 // Daria is amazing; remember that (Jessica)
-// Chocholate Diablo is  but hot
+// Chocholate Diablo is hot
 
-#include <LiquidCrystal.h>
+// --------- Initialization of variables and importing libraries --------
+
+#include <LiquidCrystal.h>			// include LCD library
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
-#include <PID_v1.h>
-#include <IRremote.h>
+#include <PID_v1.h>				// include PID library
+#include <IRremote.h>				// include Remote library
 
 float setTemp = 150; // temp threshold in Celsius    // unnecessary
 int lcd_key = 0;
@@ -20,18 +22,20 @@ double CurrentTime = 0;
 double t0;
 int DisplayTime;
 
-int heaterPin = 2; // check this value
-int tempPin = 5;    // check this value
+//Define Variables we'll be connecting to
+int heaterPin = 2; 				// create heater pin value
+int tempPin = 5;    				// create termocouple pin value
+
 double UpdatedSetpoint = 0;
 double Error;
-
-//Define Variables we'll be connecting to
 double Input, Output;
 double Setpoint[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 //Specify the links and initial tuning parameters
 PID myPID(&Input, &Output, &UpdatedSetpoint,5,5,0.1, DIRECT);
 
+
+// Initialize Remote variables needed for receiving signal from the Remote Control
 int irReceiverPin = 3;
 IRrecv irrecv(irReceiverPin);
 decode_results results;
@@ -39,14 +43,12 @@ decode_results results;
 void setup()
 {
 
-  irrecv.enableIRIn();
+  irrecv.enableIRIn();					// enable the IR sensor to receive signal
   
-  int startTemp = low; // start setting the Temp at 0.00            // unnecessary
+  int startTemp = low; 				        // unnecessary
   lcd.begin(16,2);
-  pinMode(heaterPin,OUTPUT); // heaterPin is set as an output
+  pinMode(heaterPin,OUTPUT); 				// heaterPin is set as an output
   
-
-  // Setpoint = setTemp;                                            // unnecessary
   
   //turn the PID on
   myPID.SetMode(AUTOMATIC);
@@ -55,19 +57,19 @@ void setup()
   Serial.println("code started");
   delay(5);
 
-  
+  // for loop to get user input for T1,T2,T3,t1,t2,t2 temperature and time values  
   for (int i = 2; i < 7; i = i+2) {
         lcd.clear();
         lcd.print("Set Temp, T");
         lcd.print(i/2);
         lcd.print(", C");
-	Setpoint[i]=setRemote(i);
-
-        lcd.clear();
+	Setpoint[i]=setRemote(i);		// calls the function which takes button 
+        lcd.clear();				// inputs and returns a 3 digit temperature
         lcd.print("Set Time, t");
         lcd.print(i/2);
         lcd.print(", s");
-	Setpoint[i+1]=setRemote(i+1);
+	Setpoint[i+1]=setRemote(i+1);		// calls the function which takes button inputs 
+						//and returns a 3 digit time
     }
   
 	Setpoint[0] = getTempCelsius();
@@ -75,6 +77,8 @@ void setup()
         Setpoint[8] = Setpoint[6];
         Setpoint[9] = Setpoint[7]+45;
 
+	// We understand that including the serial monitor commands increases memory
+	// We printed into the serial monitor for our own benefit
 	Serial.println(Setpoint[0]);
   	delay(5);
   	Serial.println(Setpoint[1]);
@@ -101,6 +105,8 @@ void setup()
 
 void loop()
 {
+  //Variables to calculate the current time since heating started
+  
   int seconds = millis()/1000;
   CurrentTime = seconds-t0;
   float TempCelsius = getTempCelsius();
@@ -108,14 +114,18 @@ void loop()
 
   Serial.println(getTempCelsius());
   
- 
+  // REMOVE THIS:
       if (irrecv.decode(&results)) {
         int RemoteValue = results.value;
         Serial.println(RemoteValue);
         irrecv.resume(); // Receive the next value
        }
+  // UNTIL HERE
   
-  if (CurrentTime < Setpoint[3]) {
+  // ------- If,Else If,Else structure that executes ramping code (to calculate the new set point)
+  // and updates the display based on the values associated with each phase of the reflow oven -------
+
+  if (CurrentTime < Setpoint[3]) {			// ramp to soak
     UpdatedSetpoint = ramp(Setpoint, 3);
     UpdateLCD(Setpoint[2]);
 
@@ -128,7 +138,7 @@ void loop()
     delay(5); 
   }
 
-  else if (CurrentTime < Setpoint[5]) {
+  else if (CurrentTime < Setpoint[5]) {			// pre-heat/soak
     UpdatedSetpoint = ramp(Setpoint, 5);
     UpdateLCD(Setpoint[4]);
 
@@ -141,7 +151,7 @@ void loop()
     delay(5); 
   }
   
-  else if (CurrentTime < Setpoint[7]) {
+  else if (CurrentTime < Setpoint[7]) {			// ramp to peak
     UpdatedSetpoint = ramp(Setpoint, 7);
     UpdateLCD(Setpoint[6]);
 
@@ -154,7 +164,7 @@ void loop()
     delay(5);   
   }
   
-  else if (CurrentTime < Setpoint[9]) {
+  else if (CurrentTime < Setpoint[9]) {			// reflow
     UpdatedSetpoint = ramp(Setpoint, 9);
     UpdateLCD(Setpoint[8]);
 
@@ -167,10 +177,10 @@ void loop()
     delay(5);   
   }
 
-  else {
+  else {						// finished!
     lcd.clear();
-    digitalWrite(heaterPin,LOW);
-    lcd.print("You're through!");
+    digitalWrite(heaterPin,LOW);			// the heater was turned off
+    lcd.print("You're through!");			// turn on the fan for expidited heating
     lcd.print("Temp: ");
     lcd.print(TempCelsius);
     Serial.println(TempCelsius);
@@ -181,38 +191,34 @@ void loop()
   Serial.println("Button Press Number:");
   Serial.println(results.value);
   
-  if (irrecv.decode(&results)) {
+  // --------- Code for Interupt (if EQ button is pushed) --------
+  if (irrecv.decode(&results)) {		
         int RemoteValue = results.value;
-        if (RemoteValue == 8415) {
-        while (true) {                // 0 button push case
+        if (RemoteValue == 8415) {			// Checks if EQ button was pushed
+        while (true) {                			// Condition indicates infinite loop
             lcd.clear();
             lcd.print("Arduino");
             lcd.setCursor(0,1);
             lcd.print("Interrupted");
-            digitalWrite(heaterPin, LOW);
+            digitalWrite(heaterPin, LOW);		// Oven is turned off indefinitely
             delay(1000);
             }
         }
        }
   
-  
 
-  
-  // if (analogRead(0)<1023){
-  //  while(true)
-  //  {
-  //    Serial.println("ABORT!");
-  //    digitalWrite(heaterPin, LOW);
-  //  }
 }
 
-void UpdateLCD(double target)
+void UpdateLCD(double target)				// function that updates the LCD display
   { 
   lcd.clear();
-  heaterdisplay(target);
-  delay(750);
+  heaterdisplay(target);				// Displays current temp, and user input set temp
+  delay(750);						// Also turns heater on when appropriate
   lcd.clear();
-  heatersaftey();
-  delay(750); 
+  heatersaftey();					// Displays heater status, relative error, and time remaining
+  delay(750); 						// Also turns heater on when appropriate
+
+							// Due to the two 750 delays, 
+							// the void loop takes 1.5 seconds to run each iteration
     
 }
